@@ -1,11 +1,25 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, session
+from functools import wraps
 
 app = Flask(__name__)
 
 app.secret_key = 'am mean'
 
 
+# Login required
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('You need to login first')
+            return redirect(url_for('login'))
+    return wrap
+
+
 @app.route('/')
+@login_required
 def home():
     return render_template('index.html')
 
@@ -30,6 +44,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     session.pop('logged_in', None)
     flash('You were just logged out')
