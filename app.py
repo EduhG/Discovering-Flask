@@ -2,14 +2,13 @@ from flask import Flask, render_template, request, url_for, \
     flash, redirect, session, g
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-import sqlite3
-import os
+# import sqlite3
+# import os
 
 
 app = Flask(__name__)
 
-app.config.from_object(os.environ['APP_SETTINGS'])
-print os.environ['APP_SETTINGS']
+# app.config.from_object(os.environ['APP_SETTINGS'])
 
 db = SQLAlchemy(app)
 
