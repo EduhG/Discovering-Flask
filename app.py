@@ -1,13 +1,18 @@
 from flask import Flask, render_template, request, url_for, \
     flash, redirect, session, g
 from functools import wraps
+from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 
 
 app = Flask(__name__)
 
 app.secret_key = 'am mean'
-app.database = "sample.db"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+db = SQLAlchemy(app)
+
+app.database = "posts.db"
 
 
 # Login required
@@ -27,7 +32,7 @@ def login_required(f):
 def home():
     g.db = connect_db()
     cur = g.db.execute('select * from posts')
-    posts = [dict(title=row[0], description=row[1]) for row in cur.fetchall()]
+    posts = [dict(title=row[1], description=row[2]) for row in cur.fetchall()]
     g.db.close()
 
     return render_template('index.html', posts=posts)
