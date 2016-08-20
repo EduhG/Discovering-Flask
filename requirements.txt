@@ -8,4 +8,5 @@ argparse==1.2.1
 click==6.6
 gunicorn==19.6.0
 itsdangerous==0.24
+psycopg2==2.6.2
 wsgiref==0.1.2
