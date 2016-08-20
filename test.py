@@ -52,6 +52,16 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/', follow_redirects=True)
         self.assertTrue(b'You need to login first' in response.data)
 
+    # Ensure login behaves correctly with correct credentials
+    def test_posts_show_up(self):
+        tester = app.test_client(self)
+        response = tester.post(
+            '/login',
+            data=dict(username="admin", password="admin"),
+            follow_redirects=True
+        )
+        self.assertIn(b'Well', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()
